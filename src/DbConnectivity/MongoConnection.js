@@ -17,8 +17,12 @@ function getDataFromMongo() {
       console.log('connection is open now.......');
 
       ItemModel.find({}, function (err, docs) {
-        itemsArray = docs;
-        resolve(itemsArray);
+        if (err){
+          reject(err);
+        }else{
+          itemsArray = docs;
+          resolve(itemsArray);
+        }
       });
     });
   });
@@ -41,8 +45,12 @@ function saveToMongo(item){
         db.collection("items").insertOne(itemModels)
 
         ItemModel.find({}, function (err, docs) {
-          itemsArray = docs;
-          resolve(itemsArray);
+          if (err) {
+            reject(err);
+          }else{
+            itemsArray = docs;
+            resolve(itemsArray);
+          }
         });
     });
   });
@@ -63,10 +71,14 @@ function updateDataInMongo(itemToBeUpdated){
       var itemModels = new Item(itemToBeUpdated.data, itemToBeUpdated.id);
       
       ItemModel.findById(itemToBeUpdated.id, function (err, docs) {
-        docs.text = itemToBeUpdated.data;
-        docs.save()
-        console.log("updated doc is :"+docs)
-        resolve(docs);
+        if (err) {
+          reject(err);
+        }else{
+          docs.text = itemToBeUpdated.data;
+          docs.save()
+          console.log("updated doc is :" + docs)
+          resolve(docs);
+        }
       });
 
     });
@@ -85,7 +97,12 @@ function deleteFromMongo(index){
       console.log('connection is open now.......');
 
       ItemModel.deleteOne({ _id: index }, function (err,data) {
-        resolve(200)
+        if (err){
+          reject(err)
+        }else{
+          resolve(200)
+        }
+        
       }); 
 
     });
@@ -105,10 +122,14 @@ function markItemInMongo(id,flag) {
       console.log('connection is open now.......');
 
       ItemModel.findById(id, function (err, docs) {
-        docs.completed = flag;
-        docs.save()
-        console.log("updated doc is :" + docs)
-        resolve(docs);
+        if (err){
+          reject(err)
+        }else{
+          docs.completed = flag;
+          docs.save()
+          console.log("updated doc is :" + docs)
+          resolve(docs);
+        }
       });
     });
   });

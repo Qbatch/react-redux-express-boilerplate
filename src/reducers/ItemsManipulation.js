@@ -1,17 +1,14 @@
 import axios from 'axios'
 
-/*const instance = axios.create({
-  baseURL: 'http://localhost:8000/'
-});
-need to implement this
-*/
 
 axios.defaults.baseURL = 'http://localhost:8000/'
 function manipulateItems(state = [], action) {
   switch (action.type) {
 
     case 'GET_INITIAL_STATE':
-    return [...state,...action.payload]
+      let initialStateCopy = state
+      initialStateCopy = action.payload
+      return initialStateCopy
     
     case 'VIEW_COMPLETED_ITEMS':
       let stateCopy2 = []
@@ -22,8 +19,9 @@ function manipulateItems(state = [], action) {
       }
 
     case 'FETCH_NEW_DATA':
-      state = action.payload
-      return state
+      let stateCopy3 = [...state]
+      stateCopy3 = action.payload
+      return stateCopy3
       
     case 'VIEW_ALL':
       return state
