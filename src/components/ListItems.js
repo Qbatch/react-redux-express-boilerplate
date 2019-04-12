@@ -2,12 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { getInitialState,markItem, deleteItem, showDetail } from '../actions/index'
 import store from '../store';
-import Noty from 'noty';
-import 'noty/lib/noty.css';
-import 'noty/lib/themes/mint.css';
-import 'noty/lib/themes/relax.css';
-import 'noty/lib/themes/metroui.css';
-
+import { defaultStyles, someOtherStyles } from "../styles/Style";
+import { Button,Checkbox } from 'semantic-ui-react';
 
 const mapStateToProps = (state) => {
   let { manipulateItems,filterItems} = state
@@ -23,6 +19,8 @@ class ListItems extends Component {
     this.checkBox = React.createRef();
     this.state = {
       identifier: -1,
+      viewAllItems:false,
+      idToBeUpdated: -1,
       detailIdentifier:-1
     }
 
@@ -36,6 +34,8 @@ class ListItems extends Component {
         this.props.loadText(this.props.manipulateItems[index].text, this.props.manipulateItems[index]._id,index)
       }
     }
+    this.setState({idToBeUpdated:index});
+
   }
 
   removeItem = (id) => {
@@ -48,12 +48,12 @@ class ListItems extends Component {
   }
 
 
-  showAllCompleteItems = (e) => {
-    this.setState({identifier:1})
-  }
-
-  showAllItems = () =>{
-    this.setState({identifier:-1})
+  showAllCompleteItems = (event) => {
+    if (!this.state.viewAllItems){
+      this.setState({ identifier: 1, viewAllItems: true }) 
+    }else{
+      this.setState({ identifier: -1, viewAllItems: false }) 
+    }
   }
 
   viewDetails = (event,index) => {
@@ -69,16 +69,15 @@ class ListItems extends Component {
 
   ViewResults = () => {
 
-
     if (this.state.identifier === -1){
         const listItems = this.props.manipulateItems.map((item, index) =>
-          <div style={{marginLeft:'auto',marginRight:'auto',width:600,border: '1px solid', padding: 13 }} key={index}>
-            <input style={{ display: 'left' }} ref={this.checkBox} checked={item.completed} onChange={(event) => { this.checkItems(event, index, item.text) }} type="checkbox"></input>
-            {item.text}
-            <div style={{ float: 'right' }}>
-              <button onClick={(event) => this.viewDetails(event, index)}>Show Details</button>
-              <button onClick={(event) => this.updateItem(index)}>Edit</button>
-              <button onClick={(event) => this.removeItem(index)}>Delete</button>
+          <div style={{marginLeft:'auto',marginRight:'auto',width:600,border: '1px solid', height:50 }} key={index}>
+            <input style={{ marginLeft: '10px',marginRight:'10px',marginTop:'16px',display: 'left' }} ref={this.checkBox} checked={item.completed} onChange={(event) => { this.checkItems(event, index, item.text) }} type="checkbox"></input>
+            <b>{item.text}</b>
+            <div style={{ paddingTop:7,float: 'right' }}>
+              <button style={defaultStyles.detailsButton} onClick={(event) => this.viewDetails(event, index)}>Details</button>
+              <button style={defaultStyles.editButton} onClick={(event) => this.updateItem(index)}>Edit</button>
+              <button style={defaultStyles.deleteButton} onClick={(event) => this.removeItem(index)}>Delete</button>
             </div>
           </div>
         );
@@ -106,7 +105,7 @@ class ListItems extends Component {
 
   render() {
     if (this.props.manipulateItems.length <= 0) {
-      return (<p style={{ textAlign: 'center' }}><b>No data to show</b></p>);
+      return (<h3 style={{ marginTop:30,textAlign: 'center' }}><b>No data to show</b></h3>);
     }
   
     return (
@@ -115,13 +114,12 @@ class ListItems extends Component {
         {
           this.props.manipulateItems && this.props.manipulateItems.length > 0 && 
           <div>
-            <div style={{ marginBottom: 30, marginLeft: 635, marginTop: 50 }}>
-              <button onClick={(event) => this.showAllItems(event)}>View All</button>
-              <button onClick={(event) => this.showAllCompleteItems(event)}>View Completed items</button>
+            <div style={{ marginBottom: 30, marginLeft: 660, marginTop: 50 }}>
+              <Checkbox toggle label="View completed items" checked={this.state.viewAllItems} onChange={(event) => this.showAllCompleteItems(event)}></Checkbox>
             </div>
             {this.ViewResults()}
             <h2 style={{ marginTop: 50, textAlign: 'center' }}>{this.state.detailIdentifier !== -1 && this.props.filterItems.text}
-            {this.state.detailIdentifier !== -1 && <button style={{marginLeft:30}} onClick={(event) => this.clearDetails(event)}>Clear details</button>}</h2>
+              {this.state.detailIdentifier !== -1 && <Button className='custom-button-clearDetailsButton' onClick={(event) => this.clearDetails(event)}>Clear details</Button>}</h2>
           </div>
         }
       </div>

@@ -23,8 +23,7 @@ function manipulateItems(state = [], action) {
       stateCopy3 = action.payload
       return stateCopy3
       
-    case 'VIEW_ALL':
-      return state
+
 
     case 'MARK_ITEM':
       const stateCopy1 = [...state];

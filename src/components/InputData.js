@@ -6,10 +6,9 @@ import store from '../store';
 import { defaultStyles, someOtherStyles } from "../styles/Style";
 import Noty from 'noty';
 import 'noty/lib/noty.css';
-import 'noty/lib/themes/mint.css';
 import 'noty/lib/themes/relax.css';
-import 'noty/lib/themes/metroui.css';
-
+import { Button } from 'semantic-ui-react'
+import '../styles/Styles.css'
 
 export class InputData extends Component {
   constructor(props) {
@@ -65,7 +64,7 @@ export class InputData extends Component {
       <div>
         <div style={{textAlign:'center',width:500,margin:'0 auto'}}>
           <input style={defaultStyles.inputField} type="text" value={this.state.text} onKeyPress={(event) => this.keyPress(this.state.text, event)} onChange={(event) => this.setState({ text: this.inputField.current.value })} ref={this.inputField}></input>
-          <button style={defaultStyles.submitButton} onClick={this.clickHandler}>{identifier=== -1 ? "ADD":"UPDATE"}</button>
+          <Button className='custom-button-submitButton' onClick={this.clickHandler} color='blue'>{identifier === -1 ? "ADD" : "UPDATE"}</Button>
         </div>
         <ListItems loadText={this.loadTextForUpdate} />
 

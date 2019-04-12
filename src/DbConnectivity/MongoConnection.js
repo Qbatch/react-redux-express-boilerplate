@@ -12,7 +12,6 @@ function getDataFromMongo() {
     mongoose.connect(mongoDB, { useNewUrlParser: true }).then(() => { });
     var db = mongoose.connection;
     db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
     db.once('open', function () {
       console.log('connection is open now.......');
 
@@ -54,11 +53,12 @@ function saveToMongo(item){
         });
     });
   });
+  
   return promise;
 }
 
 function updateDataInMongo(itemToBeUpdated){
-  var promise = new Promise(function (resolve, reject) {
+    var promise = new Promise(function (resolve, reject) {
 
     
     mongoose.connect(mongoDB, { useNewUrlParser: true }).then(() => { });
@@ -68,17 +68,21 @@ function updateDataInMongo(itemToBeUpdated){
     db.once('open', function () {
       console.log('connection is open now.......');
 
-      var itemModels = new Item(itemToBeUpdated.data, itemToBeUpdated.id);
-      
       ItemModel.findById(itemToBeUpdated.id, function (err, docs) {
-        if (err) {
-          reject(err);
+
+        if (docs===null){
+          reject("Cannot delete item that is pended for update!")
         }else{
-          docs.text = itemToBeUpdated.data;
-          docs.save()
-          console.log("updated doc is :" + docs)
-          resolve(docs);
+
+          if (err) {
+            reject(err);
+          } else {
+              docs.text = itemToBeUpdated.data;
+              docs.save()
+              resolve(docs);
+          }
         }
+    
       });
 
     });

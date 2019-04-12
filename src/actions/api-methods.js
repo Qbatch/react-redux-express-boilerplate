@@ -24,6 +24,7 @@ export const postData = (data) => {
 
 export const updateItemFromApi = (text,index) => {
 
+  
   var promise = new Promise(function (resolve, reject) {
     axios({
       method: 'put',

@@ -3,6 +3,10 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   entry: './src/index.js',
+  output: {
+    filename: 'main.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
   devServer: {
     inline: true,
     contentBase: "./public",
@@ -11,7 +15,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(png|svg|jpg|gif|woff|woff2|eot|ttf|otf)$/,
+          use:  [
+                  'file-loader'
+                ]
+      },
+      {
+        test: /\.(json|js|jsx)$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",

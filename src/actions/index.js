@@ -1,7 +1,5 @@
 import store from "../store";
-import axios from 'axios'
 import { markItemInApi,updateItemFromApi,postData, getInitialStateFromApi, deleteItemFromApi } from './api-methods'
-import { mongo } from "mongoose";
 
 export function showDetail(index) {
   let currentState;
@@ -9,8 +7,6 @@ export function showDetail(index) {
 
   return { type: 'SHOW_DETAILS', id: index, filterState: currentState };
 }
-
-
 
 export const updateItem = (text,id,stateId) => {
   return (dispatch) => {
@@ -20,7 +16,6 @@ export const updateItem = (text,id,stateId) => {
   }
 }
 
-
 export const insertItem = (text) => {
   return (dispatch) => {
     postData(text).then(data => {
@@ -28,7 +23,6 @@ export const insertItem = (text) => {
     });
   }
 }
-
 
 export const getInitialState = () => {
   return (dispatch) => {
@@ -68,16 +62,4 @@ export const deleteItem = (index,stateId) => {
 }*/
 
 
-export function viewAllItems(list) {
-  return { type: "VIEW_ALL", recievedResult: list }
-}
-
-export function viewCompletedItems() {
-  return { type: 'VIEW_COMPLETED_ITEMS' }
-}
-
-
-export function editItem(id, text, completed) {
-  return { type: 'EDIT_ITEM', id, text }
-}
 

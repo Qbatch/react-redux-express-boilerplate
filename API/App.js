@@ -13,14 +13,18 @@ app.delete('/delete_data', function (req, res) {
   var resonseStatusCode = deleteFromMongo(req.body.index)
   resonseStatusCode.then(function (value) {
     res.sendStatus(value)
-  })
+  }, function (err) {
+    console.log(err)
+  });
 });
 
 app.post('/mark_item', function (req, res) {
   var response = markItemInMongo(req.body.index,req.body.status)
   response.then(function (value) {
     res.send(value)
-  })
+  }, function (err) {
+    console.log(err)
+  });
 });
 
 app.put('/update_item', urlencodedParser, function (req, res) {
@@ -28,7 +32,10 @@ app.put('/update_item', urlencodedParser, function (req, res) {
 
   newDocument.then(function (value) {
     res.send(value)
+  },function (err) {
+    console.log(err)
   });
+
 });
 
 
@@ -37,6 +44,8 @@ app.post('/add_item',urlencodedParser, function (req, res) {
 
   newDocument.then(function (value) {
     res.send(value)
+  }, function (err) {
+    console.log(err)
   });
 });
 
@@ -44,6 +53,8 @@ app.get('/get_data', function (req, res) {
   var itemList = getDataFromMongo()
   itemList.then(function (value) {
     res.send(value)
+  }, function (err) {
+    console.log(err)
   });
 });
 
