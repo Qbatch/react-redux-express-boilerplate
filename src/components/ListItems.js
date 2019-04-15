@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { getInitialState,markItem, deleteItem, showDetail } from '../actions/index'
 import store from '../store';
 import { defaultStyles, someOtherStyles } from "../styles/Style";
-import { Button,Checkbox } from 'semantic-ui-react';
+import { Button,Checkbox,Switch } from 'antd'
+
 
 const mapStateToProps = (state) => {
   let { manipulateItems,filterItems} = state
@@ -16,7 +17,7 @@ class ListItems extends Component {
   // eslint-disable-next-line no-useless-constructor
   constructor(props){
     super(props);
-    this.checkBox = React.createRef();
+  
     this.state = {
       identifier: -1,
       viewAllItems:false,
@@ -43,7 +44,7 @@ class ListItems extends Component {
   }
 
   checkItems = (e,id,text) => {
-    store.dispatch(markItem(id, this.props.manipulateItems[id]._id, text, e.currentTarget.checked)) 
+    store.dispatch(markItem(id, this.props.manipulateItems[id]._id, text, e.target.checked)) 
     this.setState({identifier:-1})
   }
 
@@ -72,12 +73,12 @@ class ListItems extends Component {
     if (this.state.identifier === -1){
         const listItems = this.props.manipulateItems.map((item, index) =>
           <div style={{marginLeft:'auto',marginRight:'auto',width:600,border: '1px solid', height:50 }} key={index}>
-            <input style={{ marginLeft: '10px',marginRight:'10px',marginTop:'16px',display: 'left' }} ref={this.checkBox} checked={item.completed} onChange={(event) => { this.checkItems(event, index, item.text) }} type="checkbox"></input>
+            <Checkbox style={{ marginLeft: '10px', marginRight: '10px', marginTop: '16px', display: 'left' }} checked={item.completed} onChange={(event) => { this.checkItems(event, index, item.text) }}/>
             <b>{item.text}</b>
             <div style={{ paddingTop:7,float: 'right' }}>
-              <button style={defaultStyles.detailsButton} onClick={(event) => this.viewDetails(event, index)}>Details</button>
-              <button style={defaultStyles.editButton} onClick={(event) => this.updateItem(index)}>Edit</button>
-              <button style={defaultStyles.deleteButton} onClick={(event) => this.removeItem(index)}>Delete</button>
+              <Button style={defaultStyles.detailsButton} onClick={(event) => this.viewDetails(event, index)}>Details</Button>
+              <Button style={defaultStyles.editButton} onClick={(event) => this.updateItem(index)}>Update</Button>
+              <Button style={defaultStyles.deleteButton} onClick={(event) => this.removeItem(index)}>Delete</Button>
             </div>
           </div>
         );
@@ -115,7 +116,8 @@ class ListItems extends Component {
           this.props.manipulateItems && this.props.manipulateItems.length > 0 && 
           <div>
             <div style={{ marginBottom: 30, marginLeft: 660, marginTop: 50 }}>
-              <Checkbox toggle label="View completed items" checked={this.state.viewAllItems} onChange={(event) => this.showAllCompleteItems(event)}></Checkbox>
+              <h5><Switch onChange={this.showAllCompleteItems} checked={this.state.viewAllItems} />         View all complete items</h5>
+              
             </div>
             {this.ViewResults()}
             <h2 style={{ marginTop: 50, textAlign: 'center' }}>{this.state.detailIdentifier !== -1 && this.props.filterItems.text}

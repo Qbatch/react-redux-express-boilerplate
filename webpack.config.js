@@ -48,6 +48,7 @@ module.exports = {
 
             // https://goo.gl/N9gaqc - List of Babel plugins.
             plugins: [
+              ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }],  // `style: true` for less
               '@babel/plugin-proposal-class-properties'
             ]
           }

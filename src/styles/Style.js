@@ -2,11 +2,13 @@ export const defaultStyles = {
   // default
   inputField: {
     marginTop: 100,
-    fontSize: '20px',
+    //color: 'green',
+    fontSize: '17px',
     width: 330,
-    padding: '7px',
-    border: '2px solid #1678C1',
-    borderRadius: '5px'
+    padding: '15px',
+    height: '40px'
+    //border: '2px solid #d9d9d9',
+    //borderRadius: '5px'
   },
   submitButton:{
     marginLeft: 20, 
@@ -14,33 +16,19 @@ export const defaultStyles = {
   },
   editButton:{
     color: 'white',
-    borderRadius: '7px',
-    height:'35px',
-    width:60,
-    marginRight: '10px',
-    backgroundColor:'#86DE7D'
+    backgroundColor: '#4B9AF9',
+    marginRight: '10px'
   },
   detailsButton: {
-    height: '35px',
-    borderRadius: '7px',
     color: 'white',
-    width: 60,
     marginRight: '10px',
-    backgroundColor: '#637CF9'
+    backgroundColor: '#36AF46'
   },
+
   deleteButton: {
-    height: '35px',
-    width: 60,
-    borderRadius: '7px',
     color: 'white',
-    marginRight:10,
-    backgroundColor: '#F1684D'
-  },
-  divInputField:{
-    float:'right'
-  },
-  divButton:{
-    float:'left'
+    marginRight: 10,
+    backgroundColor: '#F4583A'
   }
 }
 

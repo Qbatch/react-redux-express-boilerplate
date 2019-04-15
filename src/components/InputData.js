@@ -7,8 +7,10 @@ import { defaultStyles, someOtherStyles } from "../styles/Style";
 import Noty from 'noty';
 import 'noty/lib/noty.css';
 import 'noty/lib/themes/relax.css';
-import { Button } from 'semantic-ui-react'
 import '../styles/Styles.css'
+import {Button,Input} from 'antd'
+
+
 
 export class InputData extends Component {
   constructor(props) {
@@ -19,14 +21,13 @@ export class InputData extends Component {
       text: "",
       stateId: -1
     }
-    this.inputField = React.createRef();
   }
 
 
-  keyPress = (inputFieldText, e) => {
-    var code = e.keyCode || e.which;
+  keyPress = (inputFieldText, event) => {
+    var code = event.keyCode || event.which;
     if (code === 13) {
-      this.clickHandler(inputFieldText)
+      this.clickHandler(event)
     }
   }
 
@@ -34,7 +35,7 @@ export class InputData extends Component {
     this.setState({ text: updatedText, identifier: id, stateId:stateId })
   }
 
-  clickHandler = () => {
+  clickHandler = (event) => {
     let { text, identifier,stateId } = this.state
     if (text){
       if (identifier !== -1) {
@@ -42,7 +43,7 @@ export class InputData extends Component {
         this.setState({ identifier: -1, text: "" })
       }
       else {
-        this.setState({ text: this.inputField.current.value })
+        this.setState({ text: event.target.value })
         store.dispatch(insertItem(this.state.text))
         this.setState({ text: "" })
       }
@@ -59,12 +60,12 @@ export class InputData extends Component {
   }
 
   render() {
-    const {identifier,nextId} = this.state;
+    const {identifier,text} = this.state;
     return (
       <div>
         <div style={{textAlign:'center',width:500,margin:'0 auto'}}>
-          <input style={defaultStyles.inputField} type="text" value={this.state.text} onKeyPress={(event) => this.keyPress(this.state.text, event)} onChange={(event) => this.setState({ text: this.inputField.current.value })} ref={this.inputField}></input>
-          <Button className='custom-button-submitButton' onClick={this.clickHandler} color='blue'>{identifier === -1 ? "ADD" : "UPDATE"}</Button>
+          <Input style={defaultStyles.inputField} value={text} type="text" onPressEnter={(event) => this.keyPress(text, event)} onChange={(event) => this.setState({ text: event.target.value })} placeholder="Enter some text!" />
+          <Button className='custom-button-submitButton' onClick={this.clickHandler} >{identifier === -1 ? "ADD" : "UPDATE"}</Button>
         </div>
         <ListItems loadText={this.loadTextForUpdate} />
 
