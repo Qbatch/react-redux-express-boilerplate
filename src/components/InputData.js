@@ -8,9 +8,18 @@ import Noty from 'noty';
 import 'noty/lib/noty.css';
 import 'noty/lib/themes/relax.css';
 import '../styles/Styles.css'
-import {Button,Input} from 'antd'
+import { Button, Input, notification} from 'antd'
 
+const openNotificationWithIcon = (type) => {
+  notification[type]({
+    message: 'React redux express boilerplate',
+    description: 'This is a simple ToDo app with following technologies used ReactJS, Ant design, Redux, Redux thunk, Axios, Webpack, node.js and mongoDB',
+  });
+};
 
+notification.config({
+  duration: 10,
+});
 
 export class InputData extends Component {
   constructor(props) {
@@ -21,6 +30,10 @@ export class InputData extends Component {
       text: "",
       stateId: -1
     }
+  }
+
+  componentWillMount(){
+    openNotificationWithIcon('success')
   }
 
 
